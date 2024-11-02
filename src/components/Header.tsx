@@ -1,54 +1,58 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+import Modal from "./Modal";
+import BurgerMenuIcon from "./icons/BurgerMenuIcon";
+import SearchBar from "./SearchBar";
+import NavMenu from "./NavMenu";
 
 interface Props {
   className?: string;
 }
 
 const Header: React.FC<Props> = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
+
   return (
-    <header>
-      <Link to="/">CryptoHUB</Link>
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/login">Login</NavLink>
-        <NavLink to="/register">SingUp</NavLink>
-      </nav>
-      <div>
-        <input type="text" placeholder="Search..." />
-        <span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
-        </span>
-      </div>
-      <div id="burger_menu">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
-      </div>
+    <header className="px-5 pt-5 grid grid-cols-2 items-center  lg:grid-cols-[1fr_2fr_1fr]">
+      <Link to="/" className="text-xl font-bold text-accent-color">
+        CryptoHUB
+      </Link>
+      <SearchBar
+        stylesInput="bg-transparent w-full px-4 py-2 pl-10 text-lt-text-main border border-elements-main rounded-lg placeholder-elements-main focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color dark:text-dt-text-main"
+        stylesContainer="hidden  lg:block relative"
+      />
+      <NavMenu
+        stylesLinkActive="text-accent-color  "
+        stylesLink="hover:text-accent-color  focus:text-accent-color   dark:hover:text-accent-color  dark:focus:text-accent-color "
+        stylesContainer="hidden lg:flex space-x-4 justify-self-end dark:text-dt-text-main"
+      />
+
+      <button
+        id="burger_menu"
+        onClick={toggleModal}
+        className="justify-self-end  lg:hidden"
+      >
+        <BurgerMenuIcon svgStyles="size-8 stroke-2 stroke-lt-text-main hover:stroke-accent-color focus:stroke-accent-color dark:stroke-dt-text-main dark:hover:stroke-accent-color dark:focus:stroke-accent-color" />
+      </button>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+        modalStyles="w-full h-full pt-4 bg-lt-background-main dark:bg-dt-background-main"
+      >
+        <SearchBar
+          stylesInput="block bg-transparent relative w-full  py-2 pl-10 text-lt-text-main  border border-elements-main rounded-lg placeholder-elements-main focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color dark:text-dt-text-main"
+          stylesContainer="flex mb-4 mx-4 relative"
+        />
+
+        <NavMenu
+          stylesLinkActive="text-accent-color bg-lt-background-secondary py-2 px-4 block text-start dark:bg-dt-background-secondary"
+          stylesLink="py-2 px-4  block text-start hover:text-accent-color  focus:text-accent-color hover:bg-lt-background-secondary focus:bg-lt-background-secondary   dark:hover:text-accent-color  dark:focus:text-accent-color dark:hover:bg-dt-background-secondary dark:focus:bg-dt-background-secondary"
+          stylesContainer="space-y-1 dark:text-dt-text-main"
+        />
+      </Modal>
     </header>
   );
 };
