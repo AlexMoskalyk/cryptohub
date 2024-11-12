@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import BurgerMenuIcon from "./icons/BurgerMenuIcon";
 import SearchBar from "./SearchBar";
 import NavMenu from "./NavMenu";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 interface Props {
   className?: string;
@@ -16,7 +17,7 @@ const Header: React.FC<Props> = () => {
   const toggleModal = () => setIsModalOpen((prev) => !prev);
 
   return (
-    <header className="px-8 pt-5 grid grid-cols-2 items-center  lg:grid-cols-[1fr_2fr_1fr]">
+    <header className="px-8 pt-5 grid grid-cols-2 items-center  lg:grid-cols-[1fr_2fr_1fr_100px]">
       <Link to="/" className="text-xl font-bold text-accent-color">
         CryptoHUB
       </Link>
@@ -25,10 +26,16 @@ const Header: React.FC<Props> = () => {
         stylesContainer="hidden  lg:block relative"
       />
       <NavMenu
-        stylesLinkActive="text-accent-color  "
+        stylesLinkActive="text-accent-color"
         stylesLink="hover:text-accent-color  focus:text-accent-color   dark:hover:text-accent-color  dark:focus:text-accent-color "
         stylesContainer="hidden lg:flex space-x-4 justify-self-end dark:text-dt-text-main"
       />
+      <div className="hidden lg:block">
+        <ThemeSwitcher
+          stylesButton="w-full hover:fill-accent-color"
+          stylesContainer="px-4 "
+        />
+      </div>
 
       <button
         id="burger_menu"
@@ -52,6 +59,12 @@ const Header: React.FC<Props> = () => {
           stylesLink="py-2 px-4  block text-start hover:text-accent-color  focus:text-accent-color hover:bg-lt-background-secondary focus:bg-lt-background-secondary   dark:hover:text-accent-color  dark:focus:text-accent-color dark:hover:bg-dt-background-secondary dark:focus:bg-dt-background-secondary"
           stylesContainer="space-y-1 dark:text-dt-text-main"
         />
+        <div className="mt-1 ">
+          <ThemeSwitcher
+            stylesButton="w-full hover:fill-accent-color"
+            stylesContainer="px-4 py-2 hover:bg-lt-background-secondary focus:bg-lt-background-secondary    dark:hover:bg-dt-background-secondary dark:focus:bg-dt-background-secondary"
+          />
+        </div>
       </Modal>
     </header>
   );

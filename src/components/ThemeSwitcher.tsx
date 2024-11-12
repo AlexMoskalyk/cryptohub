@@ -1,38 +1,15 @@
-import React, { useEffect, useState } from "react";
-import DarkModeIcon from "./icons/darkModeIcon";
+import React from "react";
+import { useTheme } from "../context/ThemeContext";
 import LightModeIcon from "./icons/LightModeIcon";
+import DarkModeIcon from "./icons/darkModeIcon";
 
 interface Props {
   stylesContainer?: string;
   stylesButton?: string;
-  svgStyles?: string;
 }
 
 const ThemeSwitcher: React.FC<Props> = ({ stylesContainer, stylesButton }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check localStorage for a saved theme preference
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") === "dark";
-    }
-    return false;
-  });
-
-  // Toggle theme and save preference in localStorage
-  const toggleTheme = () => {
-    setIsDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      const theme = newMode ? "dark" : "light";
-      document.documentElement.classList.toggle("dark", newMode);
-      localStorage.setItem("theme", theme);
-      return newMode;
-    });
-  };
-
-  // Set the initial theme based on localStorage
-  useEffect(() => {
-    const theme = localStorage.getItem("theme") || "light";
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, []);
+  const { isDarkMode, toggleTheme } = useTheme();
 
   return (
     <div className={`flex items-center ${stylesContainer}`}>

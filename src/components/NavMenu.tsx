@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import ThemeSwitcher from "./ThemeSwitcher";
 
 interface Props {
   stylesContainer?: string;
@@ -39,10 +38,6 @@ const NavMenu: React.FC<Props> = ({
       >
         Sing Up
       </NavLink>
-      <ThemeSwitcher
-        stylesButton="w-full hover:fill-accent-color"
-        stylesContainer="px-4 "
-      />
     </nav>
   );
 };
