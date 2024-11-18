@@ -6,7 +6,7 @@ import EmailIcon from "./icons/EmailIcon";
 
 const Footer = () => {
   return (
-    <footer className="px-8 pb-5 grid grid-cols-1 gap-y-3 md:grid md:grid-rows-2 md:grid-cols-2 md:justify-items-evenly	">
+    <footer className="mt-16 px-8 pb-5 grid grid-cols-1 gap-y-3 md:grid md:grid-rows-2 md:grid-cols-2 md:justify-items-evenly	">
       <div
         id="links"
         className="grid grid-cols-1 md:row-start-1  md:row-end-3  md:justify-items-center "
