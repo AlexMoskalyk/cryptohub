@@ -10,8 +10,8 @@ interface Props {
   className?: string;
 }
 interface Values {
-  password: string;
   email: string;
+  password: string;
 }
 
 const LoginPage: React.FC<Props> = () => {
@@ -55,68 +55,82 @@ const LoginPage: React.FC<Props> = () => {
           }}
           validationSchema={validationSchema}
         >
-          <Form className=" flex flex-col">
-            <label htmlFor="email" className="text-sm dark:text-dt-text-main">
-              Email
-            </label>
+          {({ isValid, dirty }) => (
+            <Form className=" flex flex-col">
+              <div className="mb-4 flex flex-col">
+                <label
+                  htmlFor="email"
+                  className="text-sm dark:text-dt-text-main"
+                >
+                  Email
+                </label>
 
-            <Field
-              id="email"
-              name="email"
-              placeholder="Email"
-              className="border rounded-xl border-elements-main  p-1 mb-4 bg-transparent focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color"
-            />
-            <ErrorMessage
-              name="email"
-              component="div"
-              className="text-negative-color text-sm mb-4"
-            />
+                <Field
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  className="border rounded-xl border-elements-main  p-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color dark:text-dt-text-main"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-negative-color text-sm"
+                />
+              </div>
 
-            <label
-              htmlFor="password"
-              className="text-sm dark:text-dt-text-main"
-            >
-              Password
-            </label>
-            <div className="relative mb-4 ">
-              <Field
-                id="password"
-                name="password"
-                placeholder="Password"
-                type={showPassword ? "text" : "password"}
-                className="border w-full rounded-xl border-elements-main  p-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color"
-              />
+              <div className="mb-4 flex flex-col">
+                <label
+                  htmlFor="password"
+                  className="text-sm dark:text-dt-text-main"
+                >
+                  Password
+                </label>
+                <div className="relative  ">
+                  <Field
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    type={showPassword ? "text" : "password"}
+                    className="border w-full rounded-xl border-elements-main  p-1 bg-transparent focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color dark:text-dt-text-main"
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute right-2 top-1 text-sm focus:outline-none"
+                  >
+                    {showPassword ? (
+                      <HideIcon svgStyles="size-6 fill-none stroke-elements-main stroke-2" />
+                    ) : (
+                      <ShowIcon svgStyles="size-6 fill-none stroke-elements-main stroke-2" />
+                    )}
+                  </button>
+                </div>
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-negative-color text-sm"
+                />
+              </div>
+
               <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className="absolute right-2 top-1 text-sm focus:outline-none"
+                disabled={!isValid || !dirty}
+                type="submit"
+                className={`mb-4 p-2 rounded-xl focus:outline-none ${
+                  isValid && dirty
+                    ? "bg-accent-color hover:bg-active-accent-color"
+                    : "bg-elements-main cursor-not-allowed"
+                }`}
               >
-                {showPassword ? (
-                  <HideIcon svgStyles="size-6 fill-none stroke-elements-main stroke-2" />
-                ) : (
-                  <ShowIcon svgStyles="size-6 fill-none stroke-elements-main stroke-2" />
-                )}
+                Submit
               </button>
-            </div>
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="text-negative-color text-sm mb-4"
-            />
-
-            <button
-              type="submit"
-              className="mb-4 p-2 bg-accent-color rounded-xl focus:bg-active-accent-color hover:bg-active-accent-color"
-            >
-              Submit
-            </button>
-            <Link
-              to="/register"
-              className="text-sm text-center  underline underline-offset-1 focus:text-accent-color hover:text-accent-color dark:text-dt-text-main dark:focus:text-accent-color dark:hover:text-accent-color"
-            >
-              Create a CryptoHUB Account
-            </Link>
-          </Form>
+              <Link
+                to="/register"
+                className="text-sm text-center  underline underline-offset-1 focus:text-accent-color hover:text-accent-color dark:text-dt-text-main dark:focus:text-accent-color dark:hover:text-accent-color"
+              >
+                Create a CryptoHUB Account
+              </Link>
+            </Form>
+          )}
         </Formik>
       </div>
     </div>
