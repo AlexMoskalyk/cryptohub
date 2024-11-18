@@ -18,19 +18,26 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     return false;
   });
 
+  const applyTheme = (isDark: boolean) => {
+    const theme = isDark ? "dark" : "light";
+    document.documentElement.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", theme);
+  };
+
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => {
       const newMode = !prevMode;
-      const theme = newMode ? "dark" : "light";
-      document.documentElement.classList.toggle("dark", newMode);
-      localStorage.setItem("theme", theme);
+      applyTheme(newMode);
       return newMode;
     });
   };
 
   useEffect(() => {
-    const theme = localStorage.getItem("theme") || "light";
-    document.documentElement.classList.toggle("dark", theme === "dark");
+    if (typeof window !== "undefined") {
+      const storedTheme = localStorage.getItem("theme") === "dark";
+      applyTheme(storedTheme);
+      setIsDarkMode(storedTheme);
+    }
   }, []);
 
   return (
