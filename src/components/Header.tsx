@@ -55,6 +55,7 @@ const Header: React.FC<Props> = () => {
         />
 
         <NavMenu
+          closeModal={toggleModal}
           stylesLinkActive="text-accent-color bg-lt-background-secondary py-2 px-4 block text-start dark:bg-dt-background-secondary"
           stylesLink="py-2 px-4  block text-start hover:text-accent-color  focus:text-accent-color hover:bg-lt-background-secondary focus:bg-lt-background-secondary   dark:hover:text-accent-color  dark:focus:text-accent-color dark:hover:bg-dt-background-secondary dark:focus:bg-dt-background-secondary"
           stylesContainer="space-y-1 dark:text-dt-text-main"

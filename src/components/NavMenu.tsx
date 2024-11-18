@@ -5,16 +5,19 @@ interface Props {
   stylesContainer?: string;
   stylesLink?: string;
   stylesLinkActive?: string;
+  closeModal?: () => void;
 }
 
 const NavMenu: React.FC<Props> = ({
   stylesContainer,
   stylesLink,
   stylesLinkActive,
+  closeModal,
 }) => {
   return (
     <nav className={stylesContainer}>
       <NavLink
+        onClick={closeModal}
         to="/"
         className={({ isActive }) =>
           isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
@@ -23,6 +26,7 @@ const NavMenu: React.FC<Props> = ({
         Home
       </NavLink>
       <NavLink
+        onClick={closeModal}
         to="/login"
         className={({ isActive }) =>
           isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
@@ -31,6 +35,7 @@ const NavMenu: React.FC<Props> = ({
         Login
       </NavLink>
       <NavLink
+        onClick={closeModal}
         to="/register"
         className={({ isActive }) =>
           isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
