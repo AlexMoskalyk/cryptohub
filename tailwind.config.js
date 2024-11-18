@@ -11,6 +11,7 @@ export default {
       "dt-background-secondary": "#2B3139",
       "dt-text-main": "#EAECEF",
       "accent-color": "#F0B90B",
+      "active-accent-color": "#FCD535",
       "negative-color": "#F6465D",
       "positive-color": "#0BCB81",
       "elements-main": "#929AA5",
