@@ -1,21 +1,23 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import ThemeSwitcher from "./ThemeSwitcher";
 
 interface Props {
   stylesContainer?: string;
   stylesLink?: string;
   stylesLinkActive?: string;
+  closeModal?: () => void;
 }
 
 const NavMenu: React.FC<Props> = ({
   stylesContainer,
   stylesLink,
   stylesLinkActive,
+  closeModal,
 }) => {
   return (
     <nav className={stylesContainer}>
       <NavLink
+        onClick={closeModal}
         to="/"
         className={({ isActive }) =>
           isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
@@ -24,6 +26,7 @@ const NavMenu: React.FC<Props> = ({
         Home
       </NavLink>
       <NavLink
+        onClick={closeModal}
         to="/login"
         className={({ isActive }) =>
           isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
@@ -32,6 +35,7 @@ const NavMenu: React.FC<Props> = ({
         Login
       </NavLink>
       <NavLink
+        onClick={closeModal}
         to="/register"
         className={({ isActive }) =>
           isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
@@ -39,10 +43,6 @@ const NavMenu: React.FC<Props> = ({
       >
         Sing Up
       </NavLink>
-      <ThemeSwitcher
-        stylesButton="w-full hover:fill-accent-color"
-        stylesContainer="px-4 "
-      />
     </nav>
   );
 };
