@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import ThemeSwitcher from "./ThemeSwitcher";
 import PhoneIcon from "./icons/PhoneIcon";
 import EmailIcon from "./icons/EmailIcon";
+import InstagramIcon from "./icons/InstagramIcon";
+import FacebookIcon from "./icons/FacebookIcon";
+import LinkedInIcon from "./icons/LinkedInIcon";
+import Twitter from "./icons/Twitter";
 
 const Footer = () => {
   return (
@@ -50,6 +54,35 @@ const Footer = () => {
             cryptohub@email.com
           </span>
         </a>
+        <div className="flex mt-3 justify-between">
+          <a
+            className="cursor-pointer"
+            href="https://www.instagram.com/"
+            target="_blank"
+          >
+            <InstagramIcon svgStyles="size-6 fill-elements-main stroke-elements-main stroke-2 hover:stroke-accent-color hover:fill-accent-color" />
+          </a>
+          <a
+            className="cursor-pointer"
+            href="https://www.facebook.com/"
+            target="_blank"
+          >
+            <FacebookIcon
+              svgStyles="size-6 fill-elements-main stroke-elements-main stroke-2 hover:stroke-accent-color hover:fill-accent-color"
+              svgContainerStyles="w-fit"
+            />
+          </a>
+          <a
+            className="cursor-pointer"
+            href="https://www.linkedin.com/"
+            target="_blank"
+          >
+            <LinkedInIcon svgStyles="size-6 fill-elements-main stroke-elements-main stroke-2 hover:stroke-accent-color hover:fill-accent-color" />
+          </a>
+          <a className="cursor-pointer" href="https://x.com/" target="_blank">
+            <Twitter svgStyles="size-6 fill-elements-main stroke-elements-main stroke-2 hover:stroke-accent-color hover:fill-accent-color" />
+          </a>
+        </div>
       </div>
       <div id="features" className="justify-self-center">
         <ThemeSwitcher stylesButton="hover:fill-accent-color" />
