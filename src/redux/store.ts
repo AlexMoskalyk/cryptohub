@@ -12,7 +12,12 @@ import {
   REGISTER,
 } from "redux-persist";
 
-const rootReducer = combineReducers({});
+import {authReducer} from "./auth/authSlice";
+
+
+const rootReducer = combineReducers({
+  auth:authReducer
+});
 
 const persistConfig = {
   key: "root",
