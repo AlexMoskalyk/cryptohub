@@ -24,6 +24,7 @@ const authSlice = createSlice({
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.status = 'success';
+        state.error = null;
         state.user = action.payload as { email: string; uid: string; };
       })
       .addCase(signIn.rejected, (state, action) => {
@@ -35,6 +36,7 @@ const authSlice = createSlice({
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.status = 'success';
+        state.error = null;
         state.user = action.payload as { email: string; uid: string; };
       })
       .addCase(signUp.rejected, (state, action) => {
@@ -43,6 +45,8 @@ const authSlice = createSlice({
       })
       .addCase(logOut.fulfilled, (state) => {
         state.user = null;
+        state.error = null;
+        state.status = 'success';
       });
   },
 });

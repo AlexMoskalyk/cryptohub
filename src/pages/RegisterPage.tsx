@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 
 import HideIcon from "../components/icons/HideIcon";
 import ShowIcon from "../components/icons/ShowIcon";
@@ -26,6 +27,7 @@ const RegisterPage: React.FC<Props> = () => {
 
   const displayNotification = useNotification();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -68,6 +70,7 @@ const RegisterPage: React.FC<Props> = () => {
         })
       ).unwrap();
       setSubmitting(false);
+      navigate("/user");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessage = mapFirebaseError(error);
