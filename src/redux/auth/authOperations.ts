@@ -17,8 +17,12 @@ export const signUp = createAsyncThunk(
   async ({ email, password }: SignInCredentials, thunkAPI) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        return userCredential.user;
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const user = userCredential.user;
+      return {
+        uid: user.uid,
+        email: user.email
+      };
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any     
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -30,7 +34,11 @@ export const signIn = createAsyncThunk(
   async ({ email, password }:SignInCredentials, thunkAPI) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        return userCredential.user;
+        const user = userCredential.user;
+      return {
+        uid: user.uid,
+        email: user.email
+      };
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error:any) {
       return thunkAPI.rejectWithValue(error.message);
