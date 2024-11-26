@@ -13,9 +13,20 @@ interface SignInCredentials {
   password: string;
 }
 
-export const signUp = createAsyncThunk(
+interface AuthUser {
+  uid: string;
+  email: string | null;
+}
+
+export const signUp = createAsyncThunk <
+  AuthUser,
+  SignInCredentials,
+  {
+    rejectValue: FirebaseError;
+  }
+>(
   'auth/signUp',
-  async ({ email, password }: SignInCredentials, thunkAPI) => {
+  async ({ email, password }, thunkAPI) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -30,7 +41,13 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const signIn = createAsyncThunk(
+export const signIn = createAsyncThunk <
+  AuthUser,
+  SignInCredentials,
+  {
+    rejectValue: FirebaseError;
+  }
+>(
   'auth/signIn',
   async ({ email, password }:SignInCredentials, thunkAPI) => {
     try {
@@ -47,10 +64,15 @@ export const signIn = createAsyncThunk(
   }
 );
 
-export const logOut = createAsyncThunk('auth/logOut', async (_, thunkAPI) => {
+export const logOut = createAsyncThunk<
+  void,
+  void,
+  {
+    rejectValue: FirebaseError;
+  }
+>('auth/logOut', async (_, thunkAPI) => {
   try {
     await signOut(auth);
-      return {};
   } catch (error) {
    const firebaseError = error as FirebaseError;
       return thunkAPI.rejectWithValue( firebaseError )

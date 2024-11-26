@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { signIn, signUp, logOut } from './authOperations';
+import { FirebaseError } from "firebase/app";
 
 interface AuthState {
   user: null | { email: string; uid: string };
   status: 'idle' | 'loading' | 'success' | 'error';
-  error: null | string;
+  error: null | FirebaseError;
 }
 
 const initialState: AuthState = {
@@ -29,7 +30,7 @@ const authSlice = createSlice({
       })
       .addCase(signIn.rejected, (state, action) => {
         state.status = 'error';
-        state.error = action.payload as string;
+        state.error = action.payload as FirebaseError;
       })
       .addCase(signUp.pending, (state) => {
         state.status = 'loading';
@@ -41,7 +42,7 @@ const authSlice = createSlice({
       })
       .addCase(signUp.rejected, (state, action) => {
         state.status = 'error';
-        state.error = action.payload as string;
+        state.error = action.payload as FirebaseError;
       })
       .addCase(logOut.fulfilled, (state) => {
         state.user = null;
