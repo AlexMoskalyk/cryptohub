@@ -3,6 +3,7 @@ import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
 
 import HideIcon from "../components/icons/HideIcon";
 import ShowIcon from "../components/icons/ShowIcon";
@@ -71,9 +72,9 @@ const RegisterPage: React.FC<Props> = () => {
       ).unwrap();
       setSubmitting(false);
       navigate("/user");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      const errorMessage = mapFirebaseError(error);
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      const errorMessage = mapFirebaseError(firebaseError);
       displayNotification({ message: errorMessage, type: "error" });
       setSubmitting(false);
     }

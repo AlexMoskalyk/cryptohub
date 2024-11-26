@@ -6,6 +6,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from '../../firebase/config.ts';
+import { FirebaseError } from 'firebase/app';
 
 interface SignInCredentials {
   email: string;
@@ -22,9 +23,9 @@ export const signUp = createAsyncThunk(
         uid: user.uid,
         email: user.email
       };
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any     
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      return thunkAPI.rejectWithValue(firebaseError );
     }
   }
 );
@@ -39,9 +40,9 @@ export const signIn = createAsyncThunk(
         uid: user.uid,
         email: user.email
       };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
-      return thunkAPI.rejectWithValue(error.message);
+    } catch (error) {
+     const firebaseError = error as FirebaseError;
+      return thunkAPI.rejectWithValue( firebaseError );
     }
   }
 );
@@ -50,8 +51,8 @@ export const logOut = createAsyncThunk('auth/logOut', async (_, thunkAPI) => {
   try {
     await signOut(auth);
       return {};
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+  } catch (error) {
+   const firebaseError = error as FirebaseError;
+      return thunkAPI.rejectWithValue( firebaseError )
   }
 });
