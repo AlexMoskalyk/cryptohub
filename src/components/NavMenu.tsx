@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAppSelector } from "../redux/store";
 
 interface Props {
   stylesContainer?: string;
@@ -14,6 +15,8 @@ const NavMenu: React.FC<Props> = ({
   stylesLinkActive,
   closeModal,
 }) => {
+  const user = useAppSelector((state) => state.auth.user);
+
   return (
     <nav className={stylesContainer}>
       <NavLink
@@ -25,24 +28,38 @@ const NavMenu: React.FC<Props> = ({
       >
         Home
       </NavLink>
-      <NavLink
-        onClick={closeModal}
-        to="/login"
-        className={({ isActive }) =>
-          isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
-        }
-      >
-        Login
-      </NavLink>
-      <NavLink
-        onClick={closeModal}
-        to="/register"
-        className={({ isActive }) =>
-          isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
-        }
-      >
-        Sing Up
-      </NavLink>
+      {user ? (
+        <NavLink
+          to="/user"
+          onClick={closeModal}
+          className={({ isActive }) =>
+            isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
+          }
+        >
+          {user.email}
+        </NavLink>
+      ) : (
+        <>
+          <NavLink
+            onClick={closeModal}
+            to="/login"
+            className={({ isActive }) =>
+              isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
+            }
+          >
+            Login
+          </NavLink>
+          <NavLink
+            onClick={closeModal}
+            to="/register"
+            className={({ isActive }) =>
+              isActive ? `${stylesLinkActive}  ` : `${stylesLink} `
+            }
+          >
+            Sing Up
+          </NavLink>
+        </>
+      )}
     </nav>
   );
 };
