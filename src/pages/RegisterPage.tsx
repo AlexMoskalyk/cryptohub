@@ -2,16 +2,22 @@ import React, { useState } from "react";
 import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
 
 import HideIcon from "../components/icons/HideIcon";
 import ShowIcon from "../components/icons/ShowIcon";
+import { signUp } from "../redux/auth/authOperations";
+import { useAppDispatch } from "../redux/store";
+import useNotification from "../hooks/useNotification";
+import mapFirebaseError from "../firebase/firebaseErrorMapper";
 
 interface Props {
   className?: string;
 }
 
 interface Values {
-  username: string;
+  // username: string;
   email: string;
   password: string;
   repeatPassword: string;
@@ -20,19 +26,23 @@ interface Values {
 const RegisterPage: React.FC<Props> = () => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const displayNotification = useNotification();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const validationSchema = Yup.object({
-    username: Yup.string()
-      .trim()
-      .required("Username is required")
-      .min(3, "Username must be at least 3 characters")
-      .matches(
-        /^[^\s]+(\s+[^\s]+)*$/,
-        "Username cannot include only spaces or start/end with spaces"
-      ),
+    // username: Yup.string()
+    //   .trim()
+    //   .required("Username is required")
+    //   .min(3, "Username must be at least 3 characters")
+    //   .matches(
+    //     /^[^\s]+(\s+[^\s]+)*$/,
+    //     "Username cannot include only spaces or start/end with spaces"
+    //   ),
     email: Yup.string()
       .trim()
       .email("Invalid email address")
@@ -49,6 +59,26 @@ const RegisterPage: React.FC<Props> = () => {
       .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
+  const handleRegistration = async (
+    values: Values,
+    { setSubmitting }: FormikHelpers<Values>
+  ) => {
+    try {
+      await dispatch(
+        signUp({
+          email: values.email,
+          password: values.password,
+        })
+      ).unwrap();
+      setSubmitting(false);
+      navigate("/user");
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      const errorMessage = mapFirebaseError(firebaseError);
+      displayNotification({ message: errorMessage, type: "error" });
+      setSubmitting(false);
+    }
+  };
   return (
     <div className="h-screen  flex  justify-center items-center ">
       <div className=" rounded-2xl w-72  border  p-6 border-elements-main h-fit md:w-96">
@@ -57,25 +87,17 @@ const RegisterPage: React.FC<Props> = () => {
         </h1>
         <Formik
           initialValues={{
-            username: "",
+            // username: string;
             email: "",
             password: "",
             repeatPassword: "",
           }}
-          onSubmit={(
-            values: Values,
-            { setSubmitting }: FormikHelpers<Values>
-          ) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 500);
-          }}
+          onSubmit={handleRegistration}
           validationSchema={validationSchema}
         >
           {({ isValid, dirty }) => (
             <Form className=" flex flex-col">
-              <div className="mb-4 flex flex-col">
+              {/* <div className="mb-4 flex flex-col">
                 <label
                   htmlFor="username"
                   className="text-sm dark:text-dt-text-main"
@@ -93,7 +115,7 @@ const RegisterPage: React.FC<Props> = () => {
                   component="div"
                   className="text-negative-color text-sm "
                 />
-              </div>
+              </div> */}
               <div className="mb-4 flex flex-col">
                 <label
                   htmlFor="email"
