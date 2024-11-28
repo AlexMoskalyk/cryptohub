@@ -17,7 +17,7 @@ const Header: React.FC<Props> = () => {
   const toggleModal = () => setIsModalOpen((prev) => !prev);
 
   return (
-    <header className="mb-16 px-8 pt-5 grid grid-cols-2 items-center  lg:grid-cols-[1fr_2fr_1fr_100px]">
+    <header className="relative top-0 w-full mb-16 px-8 pt-5 grid grid-cols-2 items-center  lg:grid-cols-[1fr_2fr_1fr_100px]">
       <Link to="/" className="text-xl font-bold text-accent-color">
         CryptoHUB
       </Link>

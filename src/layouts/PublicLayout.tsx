@@ -15,8 +15,8 @@ const PublicLayout: React.FC<Props> = () => {
     <>
       <Header />
       <Outlet />
-      <Footer />
       <ToastContainer />
+      <Footer />
     </>
   );
 };
