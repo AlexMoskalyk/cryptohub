@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 
 import HideIcon from "../components/icons/HideIcon";
@@ -11,6 +10,7 @@ import { signUp } from "../redux/auth/authOperations";
 import { useAppDispatch } from "../redux/store";
 import useNotification from "../hooks/useNotification";
 import mapFirebaseError from "../firebase/firebaseErrorMapper";
+import RegistrationConfirmation from "../components/RegistrationConfirmation";
 
 interface Props {
   className?: string;
@@ -25,10 +25,11 @@ interface Values {
 
 const RegisterPage: React.FC<Props> = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
 
   const displayNotification = useNotification();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -71,7 +72,8 @@ const RegisterPage: React.FC<Props> = () => {
         })
       ).unwrap();
       setSubmitting(false);
-      navigate("/user");
+      setRegisteredEmail(values.email);
+      setIsRegistered(true);
     } catch (error) {
       const firebaseError = error as FirebaseError;
       const errorMessage = mapFirebaseError(firebaseError);
@@ -79,6 +81,10 @@ const RegisterPage: React.FC<Props> = () => {
       setSubmitting(false);
     }
   };
+
+  if (isRegistered) {
+    return <RegistrationConfirmation email={registeredEmail} />;
+  }
   return (
     <div className="h-screen  flex  justify-center items-center ">
       <div className=" rounded-2xl w-72  border  p-6 border-elements-main h-fit md:w-96">
