@@ -1,6 +1,8 @@
 import { FirebaseError } from "firebase/app";
-const mapFirebaseError = (error: FirebaseError ): string => {
+const mapFirebaseError = (error: FirebaseError): string => {
   switch (error.code) {
+    case "auth/email-not-verified":
+      return "Email is not verified. Please check your email for verification link";
     case "auth/email-already-in-use":
       return "Email has been registered already";
     case "auth/invalid-credential":
