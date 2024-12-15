@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { resetPassword } from "../redux/auth/authOperations";
 import useNotification from "../hooks/useNotification";
-import { useEffect, useState } from "react";
+import useTimer from "../hooks/useTimer";
 
 interface ResetPasswordValues {
   email: string;
@@ -13,8 +13,7 @@ const ResetPasswordPage = () => {
     email: "",
   };
 
-  const [timer, setTimer] = useState(0);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const { time, start, isRunning } = useTimer(5);
 
   const displayNotification = useNotification();
 
@@ -31,8 +30,8 @@ const ResetPasswordPage = () => {
         message: "Email with reset link sent successfully",
         type: "success",
       });
-      setIsButtonDisabled(true);
-      setTimer(60);
+
+      start();
     } catch (error) {
       if (error instanceof Error) {
         displayNotification({
@@ -47,23 +46,6 @@ const ResetPasswordPage = () => {
       }
     }
   };
-
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout | undefined;
-    if (timer === 0) {
-      setIsButtonDisabled(false);
-    }
-    if (isButtonDisabled) {
-      intervalId = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
-    }
-    return () => {
-      if (intervalId !== undefined) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [isButtonDisabled, timer]);
 
   return (
     <div className=" mx-auto w-1/2    rounded-2xl  border  p-6 border-elements-main h-fit md:w-96">
@@ -93,19 +75,19 @@ const ResetPasswordPage = () => {
               />
             </div>
             <button
-              disabled={isButtonDisabled || !isValid || !dirty}
+              disabled={isRunning || !isValid || !dirty}
               type="submit"
               className={`mb-4 p-2 rounded-xl focus:outline-none ${
-                isButtonDisabled || !isValid || !dirty
+                isRunning || !isValid || !dirty
                   ? "bg-elements-main cursor-not-allowed"
                   : "bg-accent-color hover:bg-active-accent-color"
               }`}
             >
               Send Reset Email
             </button>
-            {isButtonDisabled && (
+            {isRunning && (
               <p className="text-sm text-lt-text-main dark:text-dt-text-main">
-                You can send another email in {timer} seconds.
+                You can send another email in {time} seconds.
               </p>
             )}
           </Form>
