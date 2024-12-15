@@ -147,6 +147,12 @@ const LoginPage: React.FC<Props> = () => {
                 Submit
               </button>
               <Link
+                to="/reset-password"
+                className="mb-4 text-sm text-center  underline underline-offset-1 focus:text-accent-color hover:text-accent-color dark:text-dt-text-main dark:focus:text-accent-color dark:hover:text-accent-color"
+              >
+                Have you forgotten your password?
+              </Link>
+              <Link
                 to="/register"
                 className="text-sm text-center  underline underline-offset-1 focus:text-accent-color hover:text-accent-color dark:text-dt-text-main dark:focus:text-accent-color dark:hover:text-accent-color"
               >

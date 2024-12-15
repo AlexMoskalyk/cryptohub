@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   User,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../../firebase/config.ts";
 import { FirebaseError } from "firebase/app";
@@ -96,3 +97,12 @@ export const logOut = createAsyncThunk<
     return thunkAPI.rejectWithValue(firebaseError);
   }
 });
+
+export const resetPassword = async (email: string): Promise<void> => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (error) {
+    const firebaseError = error as FirebaseError;
+    throw firebaseError;
+  }
+};
